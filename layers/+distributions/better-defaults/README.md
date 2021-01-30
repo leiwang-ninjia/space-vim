@@ -2,16 +2,20 @@
 
 ## Table of Contents
 
-<!-- vim-markdown-toc GFM -->
+<!-- TOC GFM -->
+
 * [Description](#description)
 * [Install](#install)
 * [Key Bindings](#key-bindings)
-    * [Basic](#basic)
-    * [Buffer](#buffer)
-    * [Window](#window)
-    * [Others](#others)
+  * [Basic](#basic)
+  * [Buffer](#buffer)
+  * [Tab](#tab)
+  * [Window](#window)
+  * [Others](#others)
+* [Related Projects](#related-projects)
 
-<!-- vim-markdown-toc -->
+<!-- /TOC -->
+
 
 ## Description
 
@@ -57,9 +61,17 @@ Key Binding          | Mode   | Description
 :---:                | :---:  | :---:
 <kbd>SPC b p</kbd>   | Normal | **p**revious **b**uffer, 上一个缓冲区
 <kbd>SPC b n</kbd>   | Normal | **n**ext **b**uffer, 下一个缓冲区
-<kbd>\<Tab></kbd>    | Normal | switch buffer, equal to <kbd>SPC b n</kbd>, 等同于 <kbd>SPC b n</kbd>
 <kbd>SPC b d</kbd>   | Normal | **d**elete current buffer, 删除当前缓冲区
 <kbd>SPC b k</kbd>   | Normal | **k**ill current buffer, 杀掉当前缓冲区
+<kbd>[ b</kbd>       | Normal | previous buffer, 上一个缓冲区
+<kbd>] b</kbd>       | Normal | next buffer, 下一个缓冲区
+
+### Tab
+
+Key Binding          | Mode   | Description
+:---:                | :---:  | :---:
+<kbd>[ t</kbd>       | Normal | previous tab
+<kbd>] t</kbd>       | Normal | next tab
 
 ### Window
 
@@ -90,3 +102,8 @@ Key Binding          | Mode   | Description
 <kbd>SPC x d</kbd>   | Normal | delete trailing whitespace, 去掉行尾多余空格 (te**x**t **d**elete)
 <kbd>SPC f R</kbd>   | Normal | reload .vimrc, 重新加载 .vimrc (**f**ile **R**esource)
 <kbd>SPC b h</kbd>   | Normal | **b**uffer **h**ome, 主 buffer
+
+## Related Projects
+
+- [vim-easyclip](https://github.com/svermeulen/vim-easyclip)
+- [vim-markbar](https://github.com/Yilin-Yang/vim-markbar)

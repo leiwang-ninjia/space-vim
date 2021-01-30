@@ -1,9 +1,12 @@
 " Reload .vimrc
 nnoremap <Leader>fR :source $MYVIMRC<CR>
 
-" Use Tab to switch buffer
-nnoremap <Tab> :bn<CR>
-nnoremap <S-Tab> :bp<CR>
+" Replace the word under cursor in current file
+nnoremap <leader>rc :%s/\<<C-r><C-w>\>/
+
+" if maparg('<C-I>', 'n') != ''
+  " nunmap <C-I>
+" endif
 
 " Use Ctrl-Tab and Alt-Tab to switch tab
 map    <C-Tab>  :tabnext<CR>
@@ -11,15 +14,28 @@ imap   <C-Tab>  <C-O>:tabnext<CR>
 map    <M-Tab>  :tabprev<CR>
 imap   <M-Tab>  <C-O>:tabprev<CR>
 
-" <Leader>[1-9] move to window [1-9]
 for s:i in range(1, 9)
-    execute 'nnoremap <Leader>' . s:i . ' :' . s:i . 'wincmd w<CR>'
-endfor
+  " <Leader>[1-9] move to window [1-9]
+  execute 'nnoremap <Leader>'.s:i ' :'.s:i.'wincmd w<CR>'
 
-" <Leader>b[1-9] move to buffer [1-9]
-for s:i in range(1, 9)
-    execute 'nnoremap <Leader>b' . s:i . ' :b' . s:i . '<CR>'
+  " <Leader><leader>[1-9] move to tab [1-9]
+  execute 'nnoremap <Leader><Leader>'.s:i s:i.'gt'
+
+  " <Leader>b[1-9] move to buffer [1-9]
+  execute 'nnoremap <Leader>b'.s:i ':b'.s:i.'<CR>'
 endfor
+unlet s:i
+
+" Picked from https://github.com/tpope/vim-unimpaired
+" Move to core/ftplugin/qf.vim
+
+" Buffers
+nnoremap ]b :bnext<cr>
+nnoremap [b :bprev<cr>
+
+" Tabs
+nnoremap ]t :tabn<cr>
+nnoremap [t :tabp<cr>
 
 " map y <Plug>(operator-flashy)
 " nmap Y <Plug>(operator-flashy)$
@@ -30,28 +46,12 @@ nnoremap <silent><Leader>bh :Startify<CR>
 " vim-better-whitespace
 nnoremap <Leader>xd :StripWhitespace<CR>
 
-let s:lines=&lines
-let s:columns=&columns
-function! s:enter_full_screen()
-    set lines=999 columns=999
-    set fullscreen
-endfunction
+" vim-choosewin
+nmap <Leader>ww <Plug>(choosewin)
 
-function! s:leave_full_screen()
-    let &lines=s:lines
-    let &columns=s:columns
-    set nofullscreen
-endfunction
+" util
+nnoremap <Leader>tc :call spacevim#vim#toggle#CursorColumn()<CR>
+nnoremap <Leader>tC :call spacevim#vim#toggle#ColorColumn()<CR>
 
-function! s:full_screen_toggle()
-    if &fullscreen
-        call s:leave_full_screen()
-    else
-        call s:enter_full_screen()
-    endif
-endfunction
-
-augroup SPACEVIM_GUI
-    autocmd!
-    autocmd GUIEnter * nnoremap <Leader>wm :call <SID>full_screen_toggle()<CR>
-augroup END
+command! -bar -nargs=0 Rtp  :call spacevim#util#Runtimepath()
+command!      -nargs=? Grep :call spacevim#vim#grep#Grep(<q-args>)

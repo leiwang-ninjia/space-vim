@@ -1,60 +1,36 @@
 scriptencoding utf-8
 
+" Smarter cursorline {
+augroup spacevimCursorline
+  autocmd!
+  autocmd InsertLeave,WinEnter * if &ft !=# 'clap_input' | set cursorline | endif
+  autocmd InsertEnter,WinLeave * set nocursorline
+augroup END
+" }
+
+" https://github.com/vim/vim/pull/2198
 " incsearch.vim {
-    if !g:spacevim_nvim
-        " incsearch.vim has bug with GUI vim
-        if !g:spacevim_gui_running
-            map /  <Plug>(incsearch-forward)
-            map ?  <Plug>(incsearch-backward)
-            map g/ <Plug>(incsearch-stay)
+if has('patch-8.0.1238')
+  map n <Plug>(is-nohl)<Plug>(anzu-n-with-echo)
+  map N <Plug>(is-nohl)<Plug>(anzu-N-with-echo)
+else
+  if !g:spacevim.nvim
+    " incsearch.vim has bug with GUI vim
+    if !g:spacevim.gui
+      map /  <Plug>(incsearch-forward)
+      map ?  <Plug>(incsearch-backward)
+      map g/ <Plug>(incsearch-stay)
 
-            map z/ <Plug>(incsearch-fuzzyspell-/)
-            map z? <Plug>(incsearch-fuzzyspell-?)
-            map zg/ <Plug>(incsearch-fuzzyspell-stay)
-        endif
+      map z/ <Plug>(incsearch-fuzzyspell-/)
+      map z? <Plug>(incsearch-fuzzyspell-?)
+      map zg/ <Plug>(incsearch-fuzzyspell-stay)
     endif
+  endif
+endif
 " }
 
-" vim-multiple-cursors {
-    let g:multi_cursor_next_key='<C-j>'
-    let g:multi_cursor_prev_key='<C-k>'
-    let g:multi_cursor_skip_key='<C-x>'
-    let g:multi_cursor_quit_key='<Esc>'
-" }
-
-" vim-startify {
-    let g:startify_custom_header = [
-                \'                                             _',
-                \'         ___ _ __   __ _  ___ ___     __   _(_)_ __ ___',
-                \'        / __| -_ \ / _- |/ __/ _ \____\ \ / / | -_ - _ \',
-                \'        \__ \ |_) | (_| | (_|  __/_____\ V /| | | | | | |',
-                \'        |___/ .__/ \__._|\___\___|      \_/ |_|_| |_| |_|',
-                \'            |_|',
-                \'                  [ space-vim ' . g:spacevim_version . ' ＠' . v:version . ' ]',
-                \]
-
-    augroup SPACEVIM_START
-        autocmd!
-        autocmd VimEnter *
-                    \   if !argc() && exists(':Startify')
-                    \|      Startify
-                    \|  endif
-    augroup END
-    let g:startify_list_order = [
-                \ ['   Recent Files:'],
-                \ 'files',
-                \ ['   Project:'],
-                \ 'dir',
-                \ ['   Sessions:'],
-                \ 'sessions',
-                \ ['   Bookmarks:'],
-                \ 'bookmarks',
-                \ ['   Commands:'],
-                \ 'commands',
-                \ ]
-
-    let g:startify_change_to_vcs_root = 1
-
+" vim-choosewin {
+let g:choosewin_overlay_enable = 1
 " }
 
 execute 'source' fnamemodify(expand('<sfile>'), ':h') . '/keybindings.vim'

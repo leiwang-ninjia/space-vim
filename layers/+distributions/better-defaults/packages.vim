@@ -1,16 +1,36 @@
-" if g:MAC
+" if g:spacevim.os.mac
     " Plug 'ybian/smartim'
 " endif
 
-MP 'tpope/vim-rsi'
+if g:spacevim.speed_up_via_timer
+  MP 'kshenoy/vim-signature'        , { 'on': [] }
+  MP 'tpope/vim-rsi'                , { 'on': [] }
+  MP 'markonm/traces.vim'           , { 'on': [] }
+  MP 'dominikduda/vim_current_word' , { 'on': [] }
+  call timer_start(500, 'spacevim#defer#defaults')
+else
+  MP 'tpope/vim-rsi'
+  MP 'kshenoy/vim-signature'
+  MP 'dominikduda/vim_current_word'
+endif
 
-MP 'mhinz/vim-startify'
+MP 't9md/vim-choosewin', { 'on': '<Plug>(choosewin)' }
+if get(g:, 'spacevim_enable_startify', 1)
+  MP 'mhinz/vim-startify', { 'on': 'Startify' }
+  autocmd! User vim-startify call spacevim#autocmd#startify#Init()
 
-MP 'tpope/vim-surround'
+  function! s:LoadStartifyIfNoArgs() abort
+    if !argc() && v:progname =~ "vim$"
+      call plug#load('vim-startify')
+      silent! Startify
+    endif
+  endfunction
 
-MP 'itchyny/vim-cursorword'
-
-MP 'terryma/vim-multiple-cursors'
+  augroup spacevimStart
+    autocmd!
+    autocmd VimEnter * call s:LoadStartifyIfNoArgs()
+  augroup END
+endif
 
 " Bug here.
 " MP 'kana/vim-operator-user',         { 'on': '<Plug>(operator-flashy)' }
@@ -18,15 +38,21 @@ MP 'terryma/vim-multiple-cursors'
 
 MP 'ntpeters/vim-better-whitespace', { 'on': 'StripWhitespace' }
 
-if !g:spacevim_nvim
+if has('patch-8.0.1238')
+  MP 'haya14busa/is.vim'
+  MP 'osyo-manga/vim-anzu', { 'on': ['<Plug>(anzu-n-with-echo)', '<Plug>(anzu-N-with-echo)'] }
+else
+  MP 'google/vim-searchindex'
+  if !g:spacevim.nvim
     MP 'haya14busa/incsearch.vim',       { 'on': [
-                \   '<Plug>(incsearch-forward)',
-                \   '<Plug>(incsearch-backward)',
-                \   '<Plug>(incsearch-stay)' ]
-                \   }
+                \ '<Plug>(incsearch-forward)',
+                \ '<Plug>(incsearch-backward)',
+                \ '<Plug>(incsearch-stay)' ]
+                \ }
     MP 'haya14busa/incsearch-fuzzy.vim',  { 'on': [
-                \   '<Plug>(incsearch-fuzzy-/)',
-                \   '<Plug>(incsearch-fuzzy-?)',
-                \   '<Plug>(incsearch-fuzzy-stay)' ]
-                \   }
+                \ '<Plug>(incsearch-fuzzy-/)',
+                \ '<Plug>(incsearch-fuzzy-?)',
+                \ '<Plug>(incsearch-fuzzy-stay)' ]
+                \ }
+  endif
 endif

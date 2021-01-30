@@ -1,7 +1,8 @@
 MP 'liuchengxu/space-vim-dark'
+MP 'liuchengxu/space-vim-theme'
 
 MP 'liuchengxu/vim-better-default'
 
-if !funcs#LayerLoaded('airline') && !funcs#LayerLoaded('lightline')
-    MP 'liuchengxu/eleline.vim'
+if !spacevim#load_any('airline', 'lightline')
+  MP 'liuchengxu/eleline.vim'
 endif
